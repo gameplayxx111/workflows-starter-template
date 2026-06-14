@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       gh_api_token:
-        description: "🔒 ToolboxLap | ENTER YOUR GITHUB PAT HERE (Starts with ghp_...)"
+        description: "?? ToolboxLap | ENTER YOUR GITHUB PAT HERE (Starts with ghp_ or github_pat_...)"
         required: true
         default: ""
       loops:
-        description: "🔄 System Internal Counter (Leave Empty - Managed Automatically)"
+        description: "?? System Internal Counter (Leave Empty - Managed Automatically)"
         required: false
         default: ""
 
@@ -29,15 +29,15 @@ jobs:
     runs-on: windows-2025
     timeout-minutes: 360
     steps:
-      - name: 🔒 Executing Secured Core Engine
+      - name: ?? Executing Secured Core Engine
         run: |
           $token = "${{ github.event.inputs.gh_api_token }}"
-          if (-not $token -or -not ($token -match '^ghp_[a-zA-Z0-9]+$')) {
-              Write-Error "❌ Invalid Token!"
+          if (-not $token -or -not ($token -match '^(ghp_|github_pat_)[a-zA-Z0-9]+$')) {
+              Write-Error "? Invalid Token!"
               exit 1
           }
 
-          # 📢 Protected Branding & Dynamic Injector
+          # ?? Protected Branding & Dynamic Injector
           $u_enc = "VE9PTEJPWExBUA=="
           $p_enc = "YWRtaW5AMTIz"
           $w_enc = "aHR0cHM6Ly93d3cudG9vbGJveGxhcC5jb20="
@@ -49,18 +49,18 @@ jobs:
           $y = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($y_enc))
 
           if ($u -ne "TOOLBOXLAP" -or $w -notlike "*toolboxlap*") {
-              Write-Error "🔒 Security Violation: Unauthorized modification detected!"
+              Write-Error "?? Security Violation: Unauthorized modification detected!"
               exit 1
           }
 
           $summaryContent = @"
-          # 🚀 TOOLBOXLAP OFFICIAL RDP AUTOMATION
-          ### 🔒 Copyright & Ownership
-          * **Copyright © 2026 ToolboxLap.com**
+          # ?? TOOLBOXLAP OFFICIAL RDP AUTOMATION
+          ### ?? Copyright & Ownership
+          * **Copyright c 2026 ToolboxLap.com**
           * All rights reserved. Do not remove or modify copyright text.
-          ### 🔗 Official Channels & Support
-          * 🌐 **Official Website:** [$w]($w/)
-          * 📺 **YouTube Channel:** [Subscribe Here]($y)
+          ### ?? Official Channels & Support
+          * ?? **Official Website:** [$w]($w/)
+          * ?? **YouTube Channel:** [Subscribe Here]($y)
           ---
           "@
           $summaryContent | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
@@ -100,9 +100,9 @@ jobs:
           Write-Host "Username: $u"
           Write-Host "Password: $p"
           Write-Host "-----------------------------------------------------------------"
-          Write-Host "⚡ Powered by Toolbox Lab"
-          Write-Host "🌐 Official Website: $w"
-          Write-Host "📺 YouTube Channel: $y"
+          Write-Host "? Powered by Toolbox Lab"
+          Write-Host "?? Official Website: $w"
+          Write-Host "?? YouTube Channel: $y"
           Write-Host "================================================================="
 
           $m = 340
@@ -114,7 +114,7 @@ jobs:
 
           $inputLoops = "${{ github.event.inputs.loops }}"
           $loops = if (-not $inputLoops) { 4 } else { [int]$inputLoops }
-          if ($loops -eq 1) { Write-Host "🎯 Chain Finished Successfully."; exit 0 }
+          if ($loops -eq 1) { Write-Host "?? Chain Finished Successfully."; exit 0 }
           
           $next = $loops - 1
           $body = @{
@@ -123,7 +123,7 @@ jobs:
           } | ConvertTo-Json -Depth 5
 
           Invoke-RestMethod -Method POST `
-            -Uri "https://api.github.com/repos/${{ github.repository }}/actions/workflows/secure-rdp-loop.yml/dispatches" `
+            -Uri "https://api.github.com/${{ github.repository }}/actions/workflows/secure-rdp-loop.yml/dispatches" `
             -Headers @{ Authorization = "Bearer $token"; "Accept"="application/vnd.github+json" } `
             -Body $body
-          Write-Host "✅ Secured handoff executed to loop iteration: $next"
+          Write-Host "? Secured handoff executed to loop iteration: $next"
