@@ -32,8 +32,8 @@ jobs:
       - name: ?? Executing Secured Core Engine
         run: |
           $token = "${{ github.event.inputs.gh_api_token }}"
-          if (-not $token -or -not ($token -match '^(ghp_|github_pat_)[a-zA-Z0-9]+$')) {
-              Write-Error "? Invalid Token!"
+          if (-not $token) {
+              Write-Error "? No Token Provided!"
               exit 1
           }
 
